@@ -32,7 +32,7 @@ const ArticlePreview = props => {
       props.favorite(article.slug);
     }
   };
-// checkin if user is logged in (hide like button if user is not logged in)
+// checkin if user is logged in (hide like button if user is not logged in)-->(BUG-102)-->hidden = {isLoggedIn() && true } on the like button
   const isLoggedIn = () => {
     if(window.localStorage.getItem('jwt')){
     const currentUser = agent.Auth.current().then(function(result) {
