@@ -11,7 +11,9 @@ import {
   UPDATE_FIELD_EDITOR
 } from '../constants/actionTypes';
 import {
-  TITLE_LENGTH_MIN
+  TITLE_LENGTH_MIN,
+  TITLE_LENGTH_MAX,
+  BODY_LENGTH_MAX
 } from '../constants/inputLengthLimits';
 
 const mapStateToProps = state => ({
@@ -113,6 +115,7 @@ class Editor extends React.Component {
                       className="form-control form-control-lg"
                       type="text"
                       placeholder="Article Title"
+                      maxLength={TITLE_LENGTH_MAX}
                       value={this.props.title}
                       onChange={this.changeTitle} />
                   </fieldset>
@@ -131,6 +134,7 @@ class Editor extends React.Component {
                       className="form-control"
                       rows="8"
                       placeholder="Write your article (in markdown)"
+                      maxLength={BODY_LENGTH_MAX}
                       value={this.props.body}
                       onChange={this.changeBody}>
                     </textarea>
