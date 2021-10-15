@@ -10,6 +10,9 @@ import {
   EDITOR_PAGE_UNLOADED,
   UPDATE_FIELD_EDITOR
 } from '../constants/actionTypes';
+import {
+  TITLE_LENGTH_MIN
+} from '../constants/inputLengthLimits';
 
 const mapStateToProps = state => ({
   ...state.editor
@@ -54,19 +57,21 @@ class Editor extends React.Component {
 
     this.submitForm = ev => {
       ev.preventDefault();
-      const article = {
-        title: this.props.title,
-        description: this.props.description,
-        body: this.props.body,
-        tagList: this.props.tagList
-      };
-
-      const slug = { slug: this.props.articleSlug };
-      const promise = this.props.articleSlug ?
-        agent.Articles.update(Object.assign(article, slug)) :
-        agent.Articles.create(article);
-
-      this.props.onSubmit(promise);
+      if (this.props.title.length >= TITLE_LENGTH_MIN) {
+        const article = {
+          title: this.props.title,
+          description: this.props.description,
+          body: this.props.body,
+          tagList: this.props.tagList
+        };
+  
+        const slug = { slug: this.props.articleSlug };
+        const promise = this.props.articleSlug ?
+          agent.Articles.update(Object.assign(article, slug)) :
+          agent.Articles.create(article);
+  
+        this.props.onSubmit(promise);
+      }
     };
   }
 
