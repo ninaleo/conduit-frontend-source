@@ -1,5 +1,6 @@
 import agent from '../agent';
 import Header from './Header';
+import '../styles/App.css';
 import React from 'react';
 import { connect } from 'react-redux';
 import { APP_LOAD, REDIRECT } from '../constants/actionTypes';
