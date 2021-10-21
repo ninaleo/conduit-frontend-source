@@ -2,6 +2,7 @@ import agent from '../agent';
 import Header from './Header';
 import '../styles/App.css';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { APP_LOAD, REDIRECT } from '../constants/actionTypes';
 import { Route, Switch } from 'react-router-dom';
@@ -67,6 +68,9 @@ class App extends React.Component {
             <Route path="/@:username/favorites" component={ProfileFavorites} />
             <Route path="/@:username" component={Profile} />
             </Switch>
+            <Helmet>
+              <script src="doorbell.js" type="text/javascript" />
+            </Helmet>
         </div>
       );
     }
