@@ -2,6 +2,8 @@ import React from 'react';
 import agent from '../../agent';
 import { connect } from 'react-redux';
 import { ADD_COMMENT } from '../../constants/actionTypes';
+import { COMMENT_LENGTH_MAX } from '../../constants/inputLengthLimits';
+import { validateCommentAdd } from '../../validators/validateInputs';
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: payload =>
@@ -21,10 +23,12 @@ class CommentInput extends React.Component {
 
     this.createComment = ev => {
       ev.preventDefault();
-      const payload = agent.Comments.create(this.props.slug,
-        { body: this.state.body });
-      this.setState({ body: '' });
-      this.props.onSubmit(payload);
+      if (validateCommentAdd(this.state.body)) {
+        const payload = agent.Comments.create(this.props.slug,
+          { body: this.state.body });
+        this.setState({ body: '' });
+        this.props.onSubmit(payload);
+      }
     };
   }
 
@@ -34,6 +38,7 @@ class CommentInput extends React.Component {
         <div className="card-block">
           <textarea className="form-control"
             placeholder="Write a comment..."
+            maxLength={COMMENT_LENGTH_MAX}
             value={this.state.body}
             onChange={this.setBody}
             rows="3">
