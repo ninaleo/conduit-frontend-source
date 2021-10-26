@@ -11,10 +11,12 @@ import {
   UPDATE_FIELD_EDITOR
 } from '../constants/actionTypes';
 import {
-  TITLE_LENGTH_MIN,
   TITLE_LENGTH_MAX,
-  BODY_LENGTH_MAX
+  DESCRIPTION_LENGTH_MAX,
+  BODY_LENGTH_MAX,
+  TAG_INPUT_LENGTH_MAX
 } from '../constants/inputLengthLimits';
+import {validateArticleAdd, validateTagAdd } from '../validators/validateInputs';
 
 const mapStateToProps = state => ({
   ...state.editor
@@ -49,7 +51,9 @@ class Editor extends React.Component {
     this.watchForEnter = ev => {
       if (ev.keyCode === 13) {
         ev.preventDefault();
-        this.props.onAddTag();
+        if (validateTagAdd(this.props.tagInput, this.props.tagList.length)) {
+          this.props.onAddTag();
+        }
       }
     };
 
@@ -59,7 +63,8 @@ class Editor extends React.Component {
 
     this.submitForm = ev => {
       ev.preventDefault();
-      if (this.props.title.length >= TITLE_LENGTH_MIN) {
+      if (validateArticleAdd(this.props.title, this.props.description, 
+        this.props.body, this.props.tagList)) {
         const article = {
           title: this.props.title,
           description: this.props.description,
@@ -125,6 +130,7 @@ class Editor extends React.Component {
                       className="form-control"
                       type="text"
                       placeholder="What's this article about?"
+                      maxLength={DESCRIPTION_LENGTH_MAX}
                       value={this.props.description}
                       onChange={this.changeDescription} />
                   </fieldset>
@@ -145,6 +151,7 @@ class Editor extends React.Component {
                       className="form-control"
                       type="text"
                       placeholder="Enter tags"
+                      maxLength={TAG_INPUT_LENGTH_MAX}
                       value={this.props.tagInput}
                       onChange={this.changeTagInput}
                       onKeyUp={this.watchForEnter} />
