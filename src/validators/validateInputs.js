@@ -3,6 +3,7 @@ import {validateTitleLength,
     validateBodyLength,
     validateTagInputLength,
     validateTagListLength,
+    validateTagLengthsOnTagList,
     validateCommentLength
 } from './length/validateInputLengths';
 import {validateTitleContent,
@@ -14,26 +15,37 @@ import {validateTitleContent,
 } from './content/validateInputContents';
 
 export const validateArticleAdd = (title, description, body, tagList) => {
-    const lengthValidity = validateTitleLength(title.length) &&
-    validateDescriptionLength(description.length) && 
-    validateBodyLength(body.length) &&
-    validateTagListLength(tagList.length);
+    const copiedTitle = title;
+    const copiedDescription = description;
+    const copiedBody = body;
+    const copiedTagList = [...tagList];
+
+    const lengthValidity = validateTitleLength(copiedTitle.length) &&
+    validateDescriptionLength(copiedDescription.length) && 
+    validateBodyLength(copiedBody.length) && 
+    validateTagLengthsOnTagList(copiedTagList) &&
+    validateTagListLength(copiedTagList.length);
    
-    const contentValidity = validateTitleContent(title) &&
-    validateDescriptionContent(description) && 
-    validateBodyContent(body) &&
-    validateTagListContent(tagList)
+    const contentValidity = validateTitleContent(copiedTitle) &&
+    validateDescriptionContent(copiedDescription) && 
+    validateBodyContent(copiedBody) &&
+    validateTagListContent(copiedTagList)
    
     return lengthValidity && contentValidity;
 }
 
 export const validateTagAdd = (tagInput, tagListLength) => {
-    return validateTagInputLength(tagInput.length) &&
-    validateTagInputContent(tagInput) && 
-    validateTagListLength(tagListLength + 1);
+    const copiedTagInput = tagInput;
+    const copiedTagListLength = tagListLength;
+
+    return validateTagInputLength(copiedTagInput.length) &&
+    validateTagInputContent(copiedTagInput) && 
+    validateTagListLength(copiedTagListLength + 1);
 }
 
 export const validateCommentAdd = (comment) => {
-    return validateCommentLength(comment.length) && 
-    validateCommentContent(comment);
+    const copiedComment = comment;
+
+    return validateCommentLength(copiedComment.length) && 
+    validateCommentContent(copiedComment);
 }

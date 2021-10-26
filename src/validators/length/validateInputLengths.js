@@ -33,6 +33,11 @@ export const validateTagInputLength = (tagInputLength) => {
     tagInputLength <= TAG_INPUT_LENGTH_MAX;
 };
 
+export const validateTagLengthsOnTagList = (tagList) => {
+    const tagsOutsideLengthLimits = tagList.filter(tag => !(tag.length >= TAG_INPUT_LENGTH_MIN && tag.length <= TAG_INPUT_LENGTH_MAX));
+    return !(tagsOutsideLengthLimits.length > 0);
+}
+
 export const validateTagListLength = (tagListLength) => {
     return tagListLength >= TAG_LIST_LENGTH_MIN && 
     tagListLength <= TAG_LIST_LENGTH_MAX;
