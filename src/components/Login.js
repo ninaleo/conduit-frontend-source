@@ -8,6 +8,7 @@ import {
   LOGIN,
   LOGIN_PAGE_UNLOADED
 } from '../constants/actionTypes';
+import ReactGA from 'react-ga';
 
 const mapStateToProps = state => ({ ...state.auth });
 
@@ -31,6 +32,10 @@ class Login extends React.Component {
       ev.preventDefault();
       this.props.onSubmit(email, password);
     };
+  }
+
+  componentWillMount() {
+    ReactGA.pageview('Login');
   }
 
   componentWillUnmount() {

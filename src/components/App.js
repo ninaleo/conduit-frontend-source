@@ -17,6 +17,8 @@ import Settings from '../components/Settings';
 import { store } from '../store';
 import { push } from 'react-router-redux';
 
+import ReactGA from 'react-ga';
+
 const mapStateToProps = state => {
   return {
     appLoaded: state.common.appLoaded,
@@ -42,6 +44,8 @@ class App extends React.Component {
   }
 
   componentWillMount() {
+    ReactGA.initialize('UA-211138433-1');
+
     const token = window.localStorage.getItem('jwt');
     if (token) {
       agent.setToken(token);

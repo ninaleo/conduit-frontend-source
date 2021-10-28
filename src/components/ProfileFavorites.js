@@ -7,6 +7,7 @@ import {
   PROFILE_PAGE_LOADED,
   PROFILE_PAGE_UNLOADED
 } from '../constants/actionTypes';
+import ReactGA from 'react-ga';
 
 const mapDispatchToProps = dispatch => ({
   onLoad: (pager, payload) =>
@@ -17,6 +18,7 @@ const mapDispatchToProps = dispatch => ({
 
 class ProfileFavorites extends Profile {
   componentWillMount() {
+    ReactGA.pageview('ProfileFavorites');
     this.props.onLoad(page => agent.Articles.favoritedBy(this.props.match.params.username, page), Promise.all([
       agent.Profile.get(this.props.match.params.username),
       agent.Articles.favoritedBy(this.props.match.params.username)

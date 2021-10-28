@@ -7,6 +7,7 @@ import {
   SETTINGS_PAGE_UNLOADED,
   LOGOUT
 } from '../constants/actionTypes';
+import ReactGA from 'react-ga';
 
 class SettingsForm extends React.Component {
   constructor() {
@@ -39,6 +40,7 @@ class SettingsForm extends React.Component {
   }
 
   componentWillMount() {
+    ReactGA.pageview('Settings');
     if (this.props.currentUser) {
       Object.assign(this.state, {
         image: this.props.currentUser.image || '',
