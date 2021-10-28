@@ -9,6 +9,7 @@ import {
   PROFILE_PAGE_LOADED,
   PROFILE_PAGE_UNLOADED
 } from '../constants/actionTypes';
+import ReactGA from 'react-ga';
 
 const EditProfileSettings = props => {
   if (props.isUser) {
@@ -76,6 +77,7 @@ const mapDispatchToProps = dispatch => ({
 
 class Profile extends React.Component {
   componentWillMount() {
+    ReactGA.pageview('Profile');
     this.props.onLoad(Promise.all([
       agent.Profile.get(this.props.match.params.username),
       agent.Articles.byAuthor(this.props.match.params.username)

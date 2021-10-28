@@ -8,6 +8,7 @@ import {
   REGISTER,
   REGISTER_PAGE_UNLOADED
 } from '../constants/actionTypes';
+import ReactGA from 'react-ga';
 
 const mapStateToProps = state => ({ ...state.auth });
 
@@ -36,6 +37,10 @@ class Register extends React.Component {
       ev.preventDefault();
       this.props.onSubmit(username, email, password);
     }
+  }
+
+  componentWillMount() {
+    ReactGA.pageview('Register');
   }
 
   componentWillUnmount() {

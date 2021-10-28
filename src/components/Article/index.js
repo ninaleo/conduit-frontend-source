@@ -5,6 +5,7 @@ import agent from '../../agent';
 import { connect } from 'react-redux';
 import marked from 'marked';
 import { ARTICLE_PAGE_LOADED, ARTICLE_PAGE_UNLOADED } from '../../constants/actionTypes';
+import ReactGA from 'react-ga';
 
 const mapStateToProps = state => ({
   ...state.article,
@@ -20,6 +21,8 @@ const mapDispatchToProps = dispatch => ({
 
 class Article extends React.Component {
   componentWillMount() {
+    ReactGA.pageview('Article');
+
     this.props.onLoad(Promise.all([
       agent.Articles.get(this.props.match.params.id),
       agent.Comments.forArticle(this.props.match.params.id)

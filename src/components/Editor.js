@@ -17,6 +17,7 @@ import {
   TAG_INPUT_LENGTH_MAX
 } from '../constants/inputLengthLimits';
 import {validateArticleAdd, validateTagAdd } from '../validators/validateInputs';
+import ReactGA from 'react-ga';
 
 const mapStateToProps = state => ({
   ...state.editor
@@ -93,6 +94,7 @@ class Editor extends React.Component {
   }
 
   componentWillMount() {
+    ReactGA.pageview('Editor');
     if (this.props.match.params.slug) {
       return this.props.onLoad(agent.Articles.get(this.props.match.params.slug));
     }
