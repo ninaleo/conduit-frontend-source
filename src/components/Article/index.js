@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import marked from 'marked';
 import { ARTICLE_PAGE_LOADED, ARTICLE_PAGE_UNLOADED } from '../../constants/actionTypes';
 import ReactGA from 'react-ga';
+import { TwitterShareButton, TwitterIcon } from 'react-share';
 
 const mapStateToProps = state => ({
   ...state.article,
@@ -48,6 +49,14 @@ class Article extends React.Component {
           <div className="container">
 
             <h1>{this.props.article.title}</h1>
+            {console.log(this.props)}
+            <TwitterShareButton
+            url={"http://128.214.253.136/article/" + this.props.article.slug}
+            >
+            <TwitterIcon size={20} round />
+            </TwitterShareButton>
+
+
             <ArticleMeta
               article={this.props.article}
               canModify={canModify} />
