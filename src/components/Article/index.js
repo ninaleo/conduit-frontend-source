@@ -47,14 +47,16 @@ class Article extends React.Component {
 
         <div className="banner">
           <div className="container">
-
-            <h1>{this.props.article.title}</h1>
-            {console.log(this.props)}
-            <TwitterShareButton
-            url={"http://128.214.253.136/article/" + this.props.article.slug}
+            
+          <TwitterShareButton
+            url={"http://128.214.253.181/article/" + this.props.article.slug}
             >
             <TwitterIcon size={20} round />
             </TwitterShareButton>
+
+            <h1>{this.props.article.title}</h1>
+            {console.log(this.props)}
+
 
 
             <ArticleMeta
