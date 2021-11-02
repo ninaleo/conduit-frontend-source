@@ -8,6 +8,12 @@ import {
   REGISTER,
   REGISTER_PAGE_UNLOADED
 } from '../constants/actionTypes';
+import { PASSWORD_LENGTH_MAX } from '../constants/inputLengthLimits';
+import { validatePassword } from '../validators/validatePassword';
+import { 
+  PASSWORD_MATCH_ERROR_MESSAGE,
+  PASSWORD_VALIDITY_ERROR_MESSAGE 
+} from '../constants/errorMessages';
 import ReactGA from 'react-ga';
 
 const mapStateToProps = state => ({ ...state.auth });
@@ -17,6 +23,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: UPDATE_FIELD_AUTH, key: 'email', value }),
   onChangePassword: value =>
     dispatch({ type: UPDATE_FIELD_AUTH, key: 'password', value }),
+  onChangePasswordRetype: value =>
+    dispatch({ type: UPDATE_FIELD_AUTH, key: 'passwordRetype', value }),
+  onErrorsUpdate: value =>
+    dispatch({ type: UPDATE_FIELD_AUTH, key: 'errors', value }),
   onChangeUsername: value =>
     dispatch({ type: UPDATE_FIELD_AUTH, key: 'username', value }),
   onSubmit: (username, email, password) => {
@@ -31,11 +41,51 @@ class Register extends React.Component {
   constructor() {
     super();
     this.changeEmail = ev => this.props.onChangeEmail(ev.target.value);
-    this.changePassword = ev => this.props.onChangePassword(ev.target.value);
+
+    this.changePassword = ev => {
+      this.props.onChangePassword(ev.target.value);
+      const copiedPassword = ev.target.value;
+      const copiedPasswordRetype = this.props.passwordRetype;
+      const errors = this.valuateErrors(copiedPassword, copiedPasswordRetype);
+      this.props.onErrorsUpdate(errors);
+    };
+
+    this.changePasswordRetype = ev => {
+      this.props.onChangePasswordRetype(ev.target.value);
+      const copiedPassword = this.props.password;
+      const copiedPasswordRetype = ev.target.value;
+      const errors = this.valuateErrors(copiedPassword, copiedPasswordRetype);
+      this.props.onErrorsUpdate(errors);
+    };
+
     this.changeUsername = ev => this.props.onChangeUsername(ev.target.value);
+
     this.submitForm = (username, email, password) => ev => {
       ev.preventDefault();
-      this.props.onSubmit(username, email, password);
+
+      const copiedPassword = this.props.password || '';
+      const copiedPasswordRetype = this.props.passwordRetype || '';
+      const validationResults = validatePassword(copiedPassword, copiedPasswordRetype);
+      if (validationResults.passwordMatch && validationResults.passwordValidity) {
+        this.props.onSubmit(username, email, password);
+      } else {
+        const errors = this.valuateErrors(copiedPassword, copiedPasswordRetype);
+        this.props.onErrorsUpdate(errors);
+      }
+    }
+
+    this.valuateErrors = (password, passwordRetype) => {
+      const validationResults = validatePassword(password, passwordRetype);
+
+      let errors;
+      if (!validationResults.passwordMatch) {
+        errors = {passwordMatch: PASSWORD_MATCH_ERROR_MESSAGE};
+      }
+      if (!validationResults.passwordValidity) {
+        errors = {passwordValidity: PASSWORD_VALIDITY_ERROR_MESSAGE, ...errors};
+      }
+
+      return errors;
     }
   }
 
@@ -65,8 +115,6 @@ class Register extends React.Component {
                 </Link>
               </p>
 
-              <ListErrors errors={this.props.errors} />
-
               <form onSubmit={this.submitForm(username, email, password)}>
                 <fieldset>
 
@@ -93,10 +141,23 @@ class Register extends React.Component {
                       className="form-control form-control-lg"
                       type="password"
                       placeholder="Password"
+                      maxLength={PASSWORD_LENGTH_MAX}
                       value={this.props.password}
                       onChange={this.changePassword} />
                   </fieldset>
 
+                  <fieldset className="form-group">
+                    <input
+                      className="form-control form-control-lg"
+                      type="password"
+                      placeholder="Password Retype"
+                      maxLength={PASSWORD_LENGTH_MAX}
+                      value={this.props.passwordRetype}
+                      onChange={this.changePasswordRetype} />
+                  </fieldset>
+
+                  <ListErrors errors={this.props.errors} />
+                  
                   <button
                     className="btn btn-lg btn-primary pull-xs-right"
                     type="submit"
