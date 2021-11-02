@@ -7,6 +7,13 @@ import {
   SETTINGS_PAGE_UNLOADED,
   LOGOUT
 } from '../constants/actionTypes';
+import { PASSWORD_LENGTH_MAX } from '../constants/inputLengthLimits';
+import { validatePassword } from '../validators/validatePassword';
+import { 
+  PASSWORD_MATCH_ERROR_MESSAGE,
+  PASSWORD_VALIDITY_ERROR_MESSAGE 
+} from '../constants/errorMessages';
+
 import ReactGA from 'react-ga';
 
 class SettingsForm extends React.Component {
@@ -18,24 +25,53 @@ class SettingsForm extends React.Component {
       username: '',
       bio: '',
       email: '',
-      password: ''
+      password: '',
+      passwordRetype: '',
+      errors: null
     };
+    
+    this.updateErrors = state => {
+      const copiedState = Object.assign({}, state);
+
+      const password = copiedState.password;
+      const passwordRetype = copiedState.passwordRetype;
+      const validationResults = validatePassword(password, passwordRetype);
+      
+      let errors;
+      if (!validationResults.passwordMatch) {
+        errors = {passwordMatch: PASSWORD_MATCH_ERROR_MESSAGE};
+      }
+
+      if (!validationResults.passwordValidity) {
+        errors = {passwordValidity: PASSWORD_VALIDITY_ERROR_MESSAGE, ...errors};
+      }
+  
+      const newState = Object.assign({}, copiedState, { errors: errors });
+      this.setState(newState);
+    }
 
     this.updateState = field => ev => {
       const state = this.state;
       const newState = Object.assign({}, state, { [field]: ev.target.value });
-      this.setState(newState);
+      this.updateErrors(newState);
     };
 
     this.submitForm = ev => {
       ev.preventDefault();
 
-      const user = Object.assign({}, this.state);
-      if (!user.password) {
-        delete user.password;
-      }
+      const state = this.state;
+      const copiedState = Object.assign({}, state);
+      const password = copiedState.password;
+      const passwordRetype = copiedState.passwordRetype;
 
-      this.props.onSubmitForm(user);
+      const validationResults = validatePassword(password, passwordRetype);
+      if (validationResults.passwordMatch && validationResults.passwordValidity) {
+        const state = copiedState;
+        const user = Object.assign({}, state);
+        this.props.onSubmitForm(user);
+      } else {
+        this.updateErrors(copiedState);
+      }
     };
   }
 
@@ -108,11 +144,25 @@ class SettingsForm extends React.Component {
             <input
               className="form-control form-control-lg"
               type="password"
-              placeholder="New Password"
+              placeholder="Password"
+              maxLength={PASSWORD_LENGTH_MAX}
               value={this.state.password}
               onChange={this.updateState('password')} />
           </fieldset>
 
+          <fieldset className="form-group">
+            <input
+              className="form-control form-control-lg"
+              type="password"
+              placeholder="Retype Password"
+              maxLength={PASSWORD_LENGTH_MAX}
+              value={this.state.passwordRetype}
+              onChange={this.updateState('passwordRetype')} />
+          </fieldset>
+
+          <ListErrors errors={this.props.errors}></ListErrors>
+          <ListErrors errors={this.state.errors}></ListErrors>
+          
           <button
             className="btn btn-lg btn-primary pull-xs-right"
             type="submit"
@@ -147,8 +197,6 @@ class Settings extends React.Component {
             <div className="col-md-6 offset-md-3 col-xs-12">
 
               <h1 className="text-xs-center">Your Settings</h1>
-
-              <ListErrors errors={this.props.errors}></ListErrors>
 
               <SettingsForm
                 currentUser={this.props.currentUser}
