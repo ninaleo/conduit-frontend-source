@@ -25,7 +25,8 @@ html {
 }
 
 body {
-    margin: 0
+    margin: 0;
+    height:100vh;
 }
 
 article,
@@ -7362,4 +7363,8 @@ footer .attribution {
     font-size: .6rem;
     margin-right: 5px;
     cursor: pointer
+}
+footer{
+    position: relative;
+    background-color: #000;
 }

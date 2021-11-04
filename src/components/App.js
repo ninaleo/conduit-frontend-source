@@ -18,6 +18,7 @@ import { store } from '../store';
 import { push } from 'react-router-redux';
 
 import ReactGA from 'react-ga';
+import Footer from './Footer';
 
 const mapStateToProps = state => {
   return {
@@ -72,6 +73,7 @@ class App extends React.Component {
             <Route path="/@:username/favorites" component={ProfileFavorites} />
             <Route path="/@:username" component={Profile} />
             </Switch>
+            <Footer/>
             <Helmet>
               <script src="doorbell.js" type="text/javascript" />
             </Helmet>
