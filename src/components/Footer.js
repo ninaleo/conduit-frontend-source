@@ -6,11 +6,11 @@ const Footer = props => {
     return (
 <footer>
 <div className="footer-conent">
-<p>The future of project-based learning is here.</p>
+<p>Some footer content here.</p>
 <ul>
-  <li>Coffee</li>
-  <li>Tea</li>
-  <li>Milk</li>
+  <li>List item 1</li>
+  <li>List item 2</li>
+  <li>List item 3</li>
 </ul> 
 </div>
 </footer>
