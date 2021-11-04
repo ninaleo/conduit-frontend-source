@@ -39,7 +39,6 @@ class Article extends React.Component {
       return null;
     }
     const twitterUrl = "http://vm3980.kaj.pouta.csc.fi/article/"+this.props.article.slug
-    console.log(twitterUrl)
     const markup = { __html: marked(this.props.article.body, { sanitize: true }) };
     const canModify = this.props.currentUser &&
       this.props.currentUser.username === this.props.article.author.username;
