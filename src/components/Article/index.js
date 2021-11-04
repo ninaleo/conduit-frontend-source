@@ -38,7 +38,8 @@ class Article extends React.Component {
     if (!this.props.article) {
       return null;
     }
-
+    const twitterUrl = "http://vm3980.kaj.pouta.csc.fi/article/"+this.props.article.slug
+    console.log(twitterUrl)
     const markup = { __html: marked(this.props.article.body, { sanitize: true }) };
     const canModify = this.props.currentUser &&
       this.props.currentUser.username === this.props.article.author.username;
@@ -49,7 +50,7 @@ class Article extends React.Component {
           <div className="container">
             
           <TwitterShareButton
-            url={"http://128.214.253.181/article/" + this.props.article.slug}
+            url={twitterUrl}
             >
             <TwitterIcon size={20} round />
             </TwitterShareButton>
