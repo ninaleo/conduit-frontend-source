@@ -1,0 +1,37 @@
+version: '3.3'
+
+services:
+  mongo:
+    image: mongo:4.4
+    volumes:
+      - db_data:/data/db
+    restart: always
+
+  backend:
+    build:
+      context: ../conduit-backend-source/.
+      dockerfile: Dockerfile-dev
+    depends_on:
+      - mongo
+    ports:
+      - "3000:3000"
+    environment:
+      MONGODB_URI: mongodb://mongo/conduit
+      SECRET: mySecret
+    volumes:
+      - ../conduit-backend-source/.:/usr/src/app
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    ports:
+      - "4100:4100"
+    restart: always
+    environment:
+      REACT_APP_API_ROOT: http://localhost:3000/api
+    volumes:
+      - .:/usr/src/app
+
+volumes:
+  db_data: {}
