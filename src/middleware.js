@@ -4,7 +4,8 @@ import {
   ASYNC_END,
   LOGIN,
   LOGOUT,
-  REGISTER
+  REGISTER,
+  DELETE_USER
 } from './constants/actionTypes';
 
 const promiseMiddleware = store => next => action => {
@@ -55,6 +56,11 @@ const localStorageMiddleware = store => next => action => {
   } else if (action.type === LOGOUT) {
     window.localStorage.setItem('jwt', '');
     agent.setToken(null);
+  } else if (action.type === DELETE_USER) {
+    if (!action.error) {
+      window.localStorage.setItem('jwt', '');
+      agent.setToken(null);
+    }
   }
 
   next(action);

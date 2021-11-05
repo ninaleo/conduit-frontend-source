@@ -4,6 +4,7 @@ import {
   LOGOUT,
   ARTICLE_SUBMITTED,
   SETTINGS_SAVED,
+  DELETE_USER,
   LOGIN,
   REGISTER,
   DELETE_ARTICLE,
@@ -18,7 +19,7 @@ import {
 } from '../constants/actionTypes';
 
 const defaultState = {
-  appName: 'Conduit',
+  appName: 'WIMMA Lab',
   token: null,
   viewChangeCounter: 0
 };
@@ -39,6 +40,13 @@ export default (state = defaultState, action) => {
     case ARTICLE_SUBMITTED:
       const redirectUrl = `/article/${action.payload.article.slug}`;
       return { ...state, redirectTo: redirectUrl };
+    case DELETE_USER:
+      return {
+        ...state,
+        redirectTo: action.error ? null : '/',
+        token: action.error ? action.token : null,
+        currentUser: action.error ? action.payload.user : null
+      };
     case SETTINGS_SAVED:
       return {
         ...state,
