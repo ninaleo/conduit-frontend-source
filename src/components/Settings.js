@@ -3,6 +3,7 @@ import React from 'react';
 import agent from '../agent';
 import { connect } from 'react-redux';
 import {
+  DELETE_USER,
   SETTINGS_SAVED,
   SETTINGS_PAGE_UNLOADED,
   LOGOUT
@@ -96,6 +97,12 @@ class SettingsForm extends React.Component {
         email: nextProps.currentUser.email
       }));
     }
+
+    if (nextProps.errors) {
+      this.setState(Object.assign({}, this.state, {
+        errors: nextProps.errors
+    }));
+    }
   }
 
   render() {
@@ -160,7 +167,6 @@ class SettingsForm extends React.Component {
               onChange={this.updateState('passwordRetype')} />
           </fieldset>
 
-          <ListErrors errors={this.props.errors}></ListErrors>
           <ListErrors errors={this.state.errors}></ListErrors>
           
           <button
@@ -183,6 +189,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onClickLogout: () => dispatch({ type: LOGOUT }),
+  onClickDelete: user => 
+    dispatch({ type: DELETE_USER, payload: agent.Auth.delete(user) }),
   onSubmitForm: user =>
     dispatch({ type: SETTINGS_SAVED, payload: agent.Auth.save(user) }),
   onUnload: () => dispatch({ type: SETTINGS_PAGE_UNLOADED })
@@ -199,6 +207,7 @@ class Settings extends React.Component {
               <h1 className="text-xs-center">Your Settings</h1>
 
               <SettingsForm
+                errors={this.props.errors}
                 currentUser={this.props.currentUser}
                 onSubmitForm={this.props.onSubmitForm} />
 
@@ -207,8 +216,14 @@ class Settings extends React.Component {
               <button
                 className="btn btn-outline-danger"
                 onClick={this.props.onClickLogout}>
-                Or click here to logout.
+                Logout
               </button>
+        
+              <button
+                className="btn btn-outline-danger pull-xs-right"
+                onClick={this.props.onClickDelete}>
+                Delete Account
+            </button>
 
             </div>
           </div>

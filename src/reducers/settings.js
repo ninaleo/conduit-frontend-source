@@ -1,4 +1,5 @@
 import {
+  DELETE_USER,
   SETTINGS_SAVED,
   SETTINGS_PAGE_UNLOADED,
   ASYNC_START
@@ -6,6 +7,13 @@ import {
 
 export default (state = {}, action) => {
   switch (action.type) {
+    case DELETE_USER:
+      return {
+        ...state,
+        inProgress: false,
+        errors: action.error ? action.payload.errors: null
+
+      };
     case SETTINGS_SAVED:
       return {
         ...state,
