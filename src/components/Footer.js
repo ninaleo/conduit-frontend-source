@@ -5,13 +5,14 @@ const Footer = props => {
 
     return (
 <footer>
+<div className="footer-link">
+<a href="gdpr">GDPR info</a>
+</div>
 <div className="footer-conent">
-<p>Some footer content here.</p>
-<ul>
-  <li>List item 1</li>
-  <li>List item 2</li>
-  <li>List item 3</li>
-</ul> 
+<img src="./logo/logo_square.png" alt = "logo" width="250" height="250"/>
+
+
+
 </div>
 </footer>
     )
