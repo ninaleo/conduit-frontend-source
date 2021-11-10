@@ -16,6 +16,10 @@ import {
   BODY_LENGTH_MAX,
   TAG_INPUT_LENGTH_MAX
 } from '../constants/inputLengthLimits';
+import { 
+  ARTICLE_INPUT_ERROR_MESSAGE,
+  TAG_INPUT_ERROR_MESSAGE
+} from '../constants/errorMessages';
 import {validateArticleAdd, validateTagAdd } from '../validators/validateInputs';
 import ReactGA from 'react-ga';
 
@@ -49,11 +53,16 @@ class Editor extends React.Component {
     this.changeBody = updateFieldEvent('body');
     this.changeTagInput = updateFieldEvent('tagInput');
 
+    const updateErrors = (key, errorMsg) => this.props.onUpdateField(key, errorMsg);
+
     this.watchForEnter = ev => {
       if (ev.keyCode === 13) {
         ev.preventDefault();
         if (validateTagAdd(this.props.tagInput, this.props.tagList.length)) {
           this.props.onAddTag();
+          updateErrors('errors', {});
+        } else {
+          updateErrors('errors', {'tagInputError': TAG_INPUT_ERROR_MESSAGE});
         }
       }
     };
@@ -79,6 +88,8 @@ class Editor extends React.Component {
           agent.Articles.create(article);
   
         this.props.onSubmit(promise);
+      } else {
+          updateErrors('errors', {'articleInputError': ARTICLE_INPUT_ERROR_MESSAGE});
       }
     };
   }
@@ -111,8 +122,6 @@ class Editor extends React.Component {
         <div className="container page">
           <div className="row">
             <div className="col-md-10 offset-md-1 col-xs-12">
-
-              <ListErrors errors={this.props.errors}></ListErrors>
 
               <form>
                 <fieldset>
@@ -173,6 +182,8 @@ class Editor extends React.Component {
                       }
                     </div>
                   </fieldset>
+
+                  <ListErrors errors={this.props.errors}></ListErrors>
 
                   <button
                     className="btn btn-lg pull-xs-right btn-primary"
