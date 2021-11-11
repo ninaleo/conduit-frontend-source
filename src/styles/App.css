@@ -2956,10 +2956,10 @@ fieldset[disabled] a.btn {
 }
 
 .btn-outline-secondary {
-    color: #ccc;
+    color: rgb(20, 20, 20);
     background-image: none;
-    background-color: transparent;
-    border-color: #ccc
+    background-color: #fff;
+    border-color: rgb(51, 51, 51)
 }
 
 .btn-outline-secondary:hover {
