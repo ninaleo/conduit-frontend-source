@@ -39,7 +39,7 @@ class Article extends React.Component {
       return null;
     }
     
-    const twitter_domain = process.env.TWITTER_DOMAIN_NAME || 'https://vm3980.kaj.pouta.csc.fi/article/';
+    const twitter_domain = process.env.REACT_APP_TWITTER_DOMAIN|| 'https://vm3980.kaj.pouta.csc.fi/article/';
     const twitterUrl = twitter_domain+this.props.article.slug
     const markup = { __html: marked(this.props.article.body, { sanitize: true }) };
     const canModify = this.props.currentUser &&
