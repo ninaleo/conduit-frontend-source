@@ -38,7 +38,9 @@ class Article extends React.Component {
     if (!this.props.article) {
       return null;
     }
-    const twitterUrl = "http://vm3980.kaj.pouta.csc.fi/article/"+this.props.article.slug
+    
+    const twitter_domain = process.env.REACT_APP_TWITTER_DOMAIN|| 'https://vm3980.kaj.pouta.csc.fi/article/';
+    const twitterUrl = twitter_domain+this.props.article.slug
     const markup = { __html: marked(this.props.article.body, { sanitize: true }) };
     const canModify = this.props.currentUser &&
       this.props.currentUser.username === this.props.article.author.username;

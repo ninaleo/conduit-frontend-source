@@ -43,9 +43,9 @@ export default (state = defaultState, action) => {
     case DELETE_USER:
       return {
         ...state,
-        redirectTo: action.error ? null : '/',
+        currentUser: action.error ? action.payload.user : null,
         token: action.error ? action.token : null,
-        currentUser: action.error ? action.payload.user : null
+        redirectTo: action.error ? null : '/'
       };
     case SETTINGS_SAVED:
       return {
