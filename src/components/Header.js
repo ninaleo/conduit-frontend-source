@@ -7,6 +7,10 @@ const LoggedOutView = props => {
       <ul className="nav navbar-nav pull-xs-right">
 
         <li className="nav-item">
+        <a href = "https://www.wimmalab.org/" className="nav-link">WimmaLab</a>
+        </li>
+
+        <li className="nav-item">
           <Link to="/" className="nav-link">
             Home
           </Link>
@@ -34,6 +38,10 @@ const LoggedInView = props => {
   if (props.currentUser) {
     return (
       <ul className="nav navbar-nav pull-xs-right">
+
+        <li className="nav-item">
+        <a href = "https://www.wimmalab.org/" className="nav-link">WimmaLab</a>
+        </li>
 
         <li className="nav-item">
           <Link to="/" className="nav-link">
