@@ -45,10 +45,28 @@ const FollowUserButton = props => {
     }
   };
 
+
+  const isLoggedIn = () => {
+    if(window.localStorage.getItem('jwt')){
+    const currentUser = agent.Auth.current().then(function(result) {
+      console.log(result.user.username )
+      if(currentUser) {
+        return false
+      }
+      
+     
+    
+    })}
+    else {
+      return true
+    }
+    }
+
+
   return (
     <button
       className={classes}
-      onClick={handleClick}>
+      onClick={handleClick} hidden = {isLoggedIn() && true }>
       <i className="ion-plus-round"></i>
       &nbsp;
       {props.user.following ? 'Unfollow' : 'Follow'} {props.user.username}
