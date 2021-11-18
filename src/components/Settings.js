@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import {
   DELETE_USER,
   SETTINGS_SAVED,
-  SETTINGS_PAGE_UNLOADED,
-  LOGOUT
+  SETTINGS_PAGE_UNLOADED
 } from '../constants/actionTypes';
 import { PASSWORD_LENGTH_MAX } from '../constants/inputLengthLimits';
 import { validatePassword } from '../validators/validatePassword';
@@ -188,7 +187,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onClickLogout: () => dispatch({ type: LOGOUT }),
   onClickDelete: user => 
     dispatch({ type: DELETE_USER, payload: agent.Auth.delete(user) }),
   onSubmitForm: user =>
@@ -212,12 +210,6 @@ class Settings extends React.Component {
                 onSubmitForm={this.props.onSubmitForm} />
 
               <hr />
-
-              <button
-                className="btn btn-outline-danger"
-                onClick={this.props.onClickLogout}>
-                Logout
-              </button>
         
               <button
                 className="btn btn-outline-danger pull-xs-right"
