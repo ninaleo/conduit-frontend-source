@@ -19,7 +19,7 @@ import {
 } from '../constants/actionTypes';
 
 const defaultState = {
-  appName: 'WIMMA Lab',
+  appName: 'WIMMA Lab Forum',
   token: null,
   viewChangeCounter: 0
 };
