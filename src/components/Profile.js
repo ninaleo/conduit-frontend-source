@@ -49,7 +49,6 @@ const FollowUserButton = props => {
   const isLoggedIn = () => {
     if(window.localStorage.getItem('jwt')){
     const currentUser = agent.Auth.current().then(function(result) {
-      console.log(result.user.username )
       if(currentUser) {
         return false
       }
@@ -105,6 +104,18 @@ class Profile extends React.Component {
   componentWillUnmount() {
     this.props.onUnload();
   }
+
+  // fix profile page change bug
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.username !== prevProps.match.params.username) {
+      ReactGA.pageview('Profile');
+      this.props.onLoad(Promise.all([
+        agent.Profile.get(this.props.match.params.username),
+        agent.Articles.byAuthor(this.props.match.params.username)
+      ]));
+    }
+  }
+
 
   renderTabs() {
     return (
