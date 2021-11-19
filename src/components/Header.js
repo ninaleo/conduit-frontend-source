@@ -70,6 +70,12 @@ const LoggedInView = props => {
           </Link>
         </li>
 
+        <li className="nav-item">
+          <button className="nav-link logout" onClick={props.handleLogout}>
+            <i className="ion-log-out"></i>&nbsp;Log Out
+          </button>
+        </li>
+
       </ul>
     );
   }
@@ -90,7 +96,7 @@ class Header extends React.Component {
 
           <LoggedOutView currentUser={this.props.currentUser} />
 
-          <LoggedInView currentUser={this.props.currentUser} />
+          <LoggedInView currentUser={this.props.currentUser} handleLogout={this.props.handleLogout} />
         </div>
       </nav>
     );

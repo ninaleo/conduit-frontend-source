@@ -4,7 +4,7 @@ import '../styles/App.css';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { APP_LOAD, REDIRECT } from '../constants/actionTypes';
+import { APP_LOAD, LOGOUT, REDIRECT } from '../constants/actionTypes';
 import { Route, Switch } from 'react-router-dom';
 import Article from '../components/Article';
 import Editor from '../components/Editor';
@@ -29,6 +29,7 @@ const mapStateToProps = state => {
   }};
 
 const mapDispatchToProps = dispatch => ({
+  onClickLogout: () => dispatch({ type: LOGOUT }),
   onLoad: (payload, token) =>
     dispatch({ type: APP_LOAD, payload, token, skipTracking: true }),
   onRedirect: () =>
@@ -61,7 +62,8 @@ class App extends React.Component {
         <div>
           <Header
             appName={this.props.appName}
-            currentUser={this.props.currentUser} />
+            currentUser={this.props.currentUser} 
+            handleLogout={this.props.onClickLogout}/>
             <Switch>
             <Route exact path="/" component={Home}/>
             <Route path="/login" component={Login} />
