@@ -166,6 +166,7 @@ class Editor extends React.Component {
                       value={this.props.tagInput}
                       onChange={this.changeTagInput}
                       onKeyUp={this.watchForEnter} />
+                      <p className="tag-instruction">Write a tag and press enter to add it</p>
 
                     <div className="tag-list">
                       {

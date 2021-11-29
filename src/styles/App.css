@@ -7389,3 +7389,9 @@ footer{
 #doorbell-submit-button:hover{
     background-color: rgb(15, 110, 93);
 }
+
+.tag-instruction{
+    background-color: rgb(195, 252, 255);
+    font-size: 14px;
+    color: rgb(15, 110, 93);
+}
