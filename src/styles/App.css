@@ -7382,3 +7382,10 @@ footer{
 .footer-link{
     padding-left: 80%;
 }
+
+#doorbell-submit-button{
+    background-color: rgb(94, 217, 195);
+}
+#doorbell-submit-button:hover{
+    background-color: rgb(15, 110, 93);
+}
