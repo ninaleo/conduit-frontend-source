@@ -3,6 +3,7 @@ import _superagent from 'superagent';
 
 const superagent = superagentPromise(_superagent, global.Promise);
 
+//const API_ROOT = "https://vm3980.kaj.pouta.csc.fi/api"
 const API_ROOT = process.env.REACT_APP_API_ROOT || 'https://conduit.productionready.io/api';
 
 const encode = encodeURIComponent;
@@ -59,7 +60,8 @@ const Articles = {
   favoritedBy: (author, page) =>
     requests.get(`/articles?favorited=${encode(author)}&${limit(5, page)}`),
   feed: (page) =>
-    requests.get(`/articles?${limit(10, page)}`),
+    requests.get(`/articles/feed?${limit(10, page)}`),
+    //requests.get('/articles/feed?limit=10&offset=0'),
   get: slug =>
     requests.get(`/articles/${slug}`),
   unfavorite: slug =>
